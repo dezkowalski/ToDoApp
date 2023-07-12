@@ -1,0 +1,98 @@
+# Ignore dotenv
+*.env
+
+# Ignore Mac OS metadata
+*.DS_Store
+
+# Ignore package caches
+/.bundle/
+/node_modules/
+/vendor/git/
+/vendor/bundle/
+/vendor/cache/
+
+# Ignore IDE configs
+/.idea/
+/.vscode/
+
+# Ignore JS/CSS caches
+.sass-cache
+.eslintcache
+
+# Ignore local environment configs
+/config/gpg_passphrase_*
+/config/provisioning_passphrase_*
+/config/provisioning_token_*
+/config/insights_meta_repo_user_api_token_dev
+.powenv
+.tool-versions
+.vagrant
+Vagrantfile
+build_options.yml
+insights.env.yml
+/script/maxwell/custom_config.properties
+
+# Ignore log and tmp data
+/log/
+/tmp/
+!/log/.keep
+!/tmp/.keep
+*.log
+*.swp
+dump.rdb
+/db/dump
+
+# Ignore database caches
+/db/cstore
+/db/development_dump.sql
+/db/structure.sql
+
+# Ignore CI caches
+/app/assets/javascripts/jasmine_ci_*
+jasmine_ci_*
+junit_results.xml
+
+# Ignore Solr caches
+/solr/data*
+/solr/pids*
+
+# Ignore reports caches
+/coverage/
+/doc/report.html
+/doc/scratch.html.erb
+/spec/reports/
+
+# Ignore asset caches
+/public/a
+/public/assets
+/public/compiled/*
+/public/javascripts/all.js
+/public/javascripts/all_external.js
+/public/stylesheets/all.css
+/public/stylesheets/base.css
+/public/stylesheets/external.css
+/public/stylesheets/includes.css
+/public/stylesheets/project-tracker.css
+/public/system/*
+/public/uploads
+/public/design-system
+/public/webpack
+assets/*
+
+# Miscellaneous
+tags
+brainstem_docs
+docker/id_rsa
+docker/id_rsa.pub
+/frontend/internationalization/i18n.js
+/frontend/internationalization/translations.js
+/frontend/dynamic-react-specs.js
+/config/karma.config.react.dynamic.js
+/config/spring.rb
+
+# Ignore oas debug info
+/public/oas/specification_debug.json
+
+**/*.retry
+.byebug_history
+
