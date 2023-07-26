@@ -1,5 +1,5 @@
 const { todos } = require("./sampleData");
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean } = require("graphql");
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean,GraphQLList, GraphQLSchema } = require("graphql");
 
 const TodoType = new GraphQLObjectType({
   name: "Todo",
@@ -14,4 +14,20 @@ const TodoType = new GraphQLObjectType({
       type: GraphQLBoolean
     }
   }
+});
+
+const RootQueryType = new GraphQLObjectType({
+  name: "Query",
+  fields: {
+    todos: {
+      type: new GraphQLList(TodoType),
+      resolve: (root, args) => {
+        return todos;
+      }
+    },
+  },
+});
+
+module.exports = new GraphQLSchema({
+  query: RootQueryType
 });
