@@ -25,6 +25,13 @@ const RootQueryType = new GraphQLObjectType({
         return todos;
       }
     },
+    todo: {
+      type: TodoType,
+      args: { id: { type: GraphQLID } },
+      resolve: (parent, args) => {
+        return todos.find(todo => todo.id === args.id);
+      }
+    }
   },
 });
 
