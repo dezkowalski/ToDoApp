@@ -1,4 +1,5 @@
 const { todos } = require("./sampleData");
+const Todo = require("./Todo");
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean,GraphQLList, GraphQLSchema } = require("graphql");
 
 const TodoType = new GraphQLObjectType({
@@ -22,14 +23,14 @@ const RootQueryType = new GraphQLObjectType({
     todos: {
       type: new GraphQLList(TodoType),
       resolve: (root, args) => {
-        return todos;
+        return Todo.find();
       }
     },
     todo: {
       type: TodoType,
       args: { id: { type: GraphQLID } },
       resolve: (parent, args) => {
-        return todos.find(todo => todo.id === args.id);
+        return Todo.findById(args.id);
       }
     }
   },
