@@ -1,6 +1,6 @@
 const { todos } = require("./sampleData");
 const Todo = require("./Todo");
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean,GraphQLList, GraphQLSchema } = require("graphql");
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean,GraphQLList, GraphQLSchema, GraphQLNonNull } = require("graphql");
 
 const TodoType = new GraphQLObjectType({
   name: "Todo",
@@ -36,6 +36,27 @@ const RootQueryType = new GraphQLObjectType({
   },
 });
 
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+    fields: {
+      addTodo: {
+        type: TodoType,
+          args: {
+          title: { type: GraphQLNonNull(GraphQLString)},
+          completed: { type: GraphQLNonNull(GraphQLBoolean)},
+        },
+        resolve: (parent, args) => {
+          const todo = new Todo({
+            title: args.title,
+            completed: false,
+          });
+          return todo.save();
+        },
+      },
+    },
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQueryType
+  query: RootQueryType,
+  mutation,
 });
