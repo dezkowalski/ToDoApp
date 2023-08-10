@@ -42,8 +42,8 @@ const mutation = new GraphQLObjectType({
       addTodo: {
         type: TodoType,
           args: {
-          title: { type: GraphQLNonNull(GraphQLString)},
-          completed: { type: GraphQLNonNull(GraphQLBoolean)},
+          title: { type: GraphQLNonNull(GraphQLString) },
+          completed: { type: GraphQLNonNull(GraphQLBoolean) },
         },
         resolve: (parent, args) => {
           const todo = new Todo({
@@ -53,6 +53,15 @@ const mutation = new GraphQLObjectType({
           return todo.save();
         },
       },
+      deleteTodo: {
+        type: TodoType,
+        args: {
+          id: { type: GraphQLNonNull(GraphQLID) },
+        },
+        resolve: (parent, args) => {
+          return Todo.findByIdAndRemove(args.id);
+        },
+      }
     },
 });
 
