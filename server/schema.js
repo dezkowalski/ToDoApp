@@ -71,6 +71,16 @@ const mutation = new GraphQLObjectType({
         resolve: (parent, args) => {
           return Todo.findByIdAndUpdate(args.id, { $set: { title: args.title } });
         }
+      },
+      toggleTodo: {
+        type: TodoType,
+        args: {
+          id: { type: GraphQLNonNull(GraphQLID) },
+        },
+        async resolve(parent, args) {
+          const todo = await Todo.findById(args.id);
+          return Todo.findByIdAndUpdate(args.id, { $set: { completed: !todo.completed } });
+        }
       }
     },
 });
