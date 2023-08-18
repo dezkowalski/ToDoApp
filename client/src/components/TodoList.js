@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import Table from 'react-bootstrap/Table';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { MdDone } from 'react-icons/md';
+import Spinner from 'react-bootstrap/Spinner'
 
 const GET_TODOS = gql`
     query getTodos {
@@ -15,7 +16,7 @@ const GET_TODOS = gql`
 export default function TodoList() {
     const { loading, error, data } = useQuery(GET_TODOS);
 
-    if(loading) return <p>loading...</p>;
+    if(loading) return <Spinner animation="border" />;
     if(error) return <p>something went wrong</p>;
 
     return (
