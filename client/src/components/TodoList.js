@@ -1,9 +1,10 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import Table from 'react-bootstrap/Table';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { MdDone } from 'react-icons/md';
 import Spinner from 'react-bootstrap/Spinner'
+import Button from 'react-bootstrap/Button';
 
 const GET_TODOS = gql`
     query getTodos {
@@ -11,10 +12,26 @@ const GET_TODOS = gql`
             id, title, completed,
         }
     }
-`
+`;
+
+const DELETE_TODO = gql`
+    mutation deleteTodo ($id: ID!) {
+        deleteTodo(id: $id) {
+            id, title, completed
+        }
+    }
+`;
 
 export default function TodoList() {
     const { loading, error, data } = useQuery(GET_TODOS);
+    const [deleteTodo] = useMutation(DELETE_TODO);
+
+    const removeTodo = id => {
+      deleteTodo({
+        variables: {id: id},
+        refetchQueries: [{ query: GET_TODOS }],
+      })
+  }
 
     if(loading) return <Spinner animation="border" />;
     if(error) return <p>something went wrong</p>;
@@ -34,7 +51,11 @@ export default function TodoList() {
                 <tr key={todo.id}>
                     <td>{todo.title}</td>
                     <td><FaEdit /></td>
-                    <td><FaTrash /></td>
+                    <td>
+                      <Button variant="danger" onClick={() => removeTodo(todo.id)}>
+                        <FaTrash />
+                      </Button>
+                    </td>
                     <td><MdDone /></td>
                 </tr>
               ))}
