@@ -48,6 +48,9 @@ export default function TodoList() {
 
       const handleSubmit = (e) => {
         e.preventDefault();
+
+        if(title === "") return alert("Please get gud");
+
         addTodo();
         setTitle("");
       }
