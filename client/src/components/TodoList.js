@@ -65,21 +65,21 @@ export default function TodoList() {
       variables: {id: id, title},
       refetchQueries: [{ query: GET_TODOS }]
     })
-  }
+  };
 
   const removeTodo = id => {
     deleteTodo({
       variables: {id: id},
       refetchQueries: [{query: GET_TODOS}],
     })
-  }
+  };
 
   const markTodo = (id) => {
     toggleTodo({
       variables: {id: id},
       refetchQueries: [{ query: GET_TODOS }]
     })
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,7 +96,7 @@ export default function TodoList() {
     }
 
     setTitle("");
-  }
+  };
 
   if(loading) return <Spinner animation="border" />;
   if(error) return <p>something went wrong</p>;
