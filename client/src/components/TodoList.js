@@ -39,6 +39,14 @@ const UPDATE_TODO = gql`
     }
 `;
 
+const TOGGLE_TODO = gql`
+    mutation toggleTodo ($id: ID!) {
+        toggleTodo(id: $id) {
+            id, title, completed
+        }
+    }
+`;
+
 export default function TodoList() {
   const [title, setTitle] = useState("");
   const completed = false;
@@ -50,6 +58,8 @@ export default function TodoList() {
     const [deleteTodo] = useMutation(DELETE_TODO);
     const [addTodo] = useMutation(ADD_TODO, {variables: { title, completed }, refetchQueries: [{ query: GET_TODOS }]});
     const [updateTodo] = useMutation(UPDATE_TODO);
+    const [toggleTodo] = useMutation(TOGGLE_TODO);
+
     const modifyTodo = (id) => {
       updateTodo({
         variables: {id: id, title},
@@ -63,6 +73,13 @@ export default function TodoList() {
         refetchQueries: [{query: GET_TODOS}],
       })
     }
+
+  const markTodo = (id) => {
+    toggleTodo({
+      variables: {id: id},
+      refetchQueries: [{ query: GET_TODOS }]
+    })
+  }
 
       const handleSubmit = (e) => {
         e.preventDefault();
@@ -105,7 +122,7 @@ export default function TodoList() {
             </thead>
             <tbody>
                 {data.todos.map((todo) => (
-                  <tr key={todo.id}>
+                  <tr key={todo.id} className={`${todo.completed ? 'text-decoration-line-through' : ''}`}>
                       <td>{todo.title}</td>
                       <td>
                         <Button variant="warning" onClick={() => {
@@ -121,7 +138,11 @@ export default function TodoList() {
                           <FaTrash />
                         </Button>
                       </td>
-                      <td><MdDone /></td>
+                      <td>
+                        <Button variant="success" onClick={() => markTodo(todo.id)}>
+                          <MdDone />
+                        </Button>
+                      </td>
                   </tr>
                 ))}
             </tbody>
