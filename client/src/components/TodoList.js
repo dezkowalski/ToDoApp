@@ -54,25 +54,25 @@ export default function TodoList() {
   const [editTodo, setEditTodo] = useState(null);
   const buttonTitle = editMode? "EDit" : "Add";
 
-    const { loading, error, data } = useQuery(GET_TODOS);
-    const [deleteTodo] = useMutation(DELETE_TODO);
-    const [addTodo] = useMutation(ADD_TODO, {variables: { title, completed }, refetchQueries: [{ query: GET_TODOS }]});
-    const [updateTodo] = useMutation(UPDATE_TODO);
-    const [toggleTodo] = useMutation(TOGGLE_TODO);
+  const { loading, error, data } = useQuery(GET_TODOS);
+  const [deleteTodo] = useMutation(DELETE_TODO);
+  const [addTodo] = useMutation(ADD_TODO, {variables: { title, completed }, refetchQueries: [{ query: GET_TODOS }]});
+  const [updateTodo] = useMutation(UPDATE_TODO);
+  const [toggleTodo] = useMutation(TOGGLE_TODO);
 
-    const modifyTodo = (id) => {
-      updateTodo({
-        variables: {id: id, title},
-        refetchQueries: [{ query: GET_TODOS }]
-      })
-    }
+  const modifyTodo = (id) => {
+    updateTodo({
+      variables: {id: id, title},
+      refetchQueries: [{ query: GET_TODOS }]
+    })
+  }
 
-    const removeTodo = id => {
-      deleteTodo({
-        variables: {id: id},
-        refetchQueries: [{query: GET_TODOS}],
-      })
-    }
+  const removeTodo = id => {
+    deleteTodo({
+      variables: {id: id},
+      refetchQueries: [{query: GET_TODOS}],
+    })
+  }
 
   const markTodo = (id) => {
     toggleTodo({
@@ -81,72 +81,72 @@ export default function TodoList() {
     })
   }
 
-      const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        if(title === "") return alert("Please get gud");
+    if(title === "") return alert("Please get gud");
 
-        if(editMode) {
-          modifyTodo(editTodo.id);
-          setEditMode(false);
-          setEditTodo(null);
-        }
-        else {
-          addTodo();
-        }
+    if(editMode) {
+      modifyTodo(editTodo.id);
+      setEditMode(false);
+      setEditTodo(null);
+    }
+    else {
+      addTodo();
+    }
 
-        setTitle("");
-      }
+    setTitle("");
+  }
 
-    if(loading) return <Spinner animation="border" />;
-    if(error) return <p>something went wrong</p>;
+  if(loading) return <Spinner animation="border" />;
+  if(error) return <p>something went wrong</p>;
 
-    return (
-      <>
-        <Form onSubmit={handleSubmit} >
-          <Form.Group className="mb-3">
-            <Form.Control type="text" placeholder="Enter To Do" onChange={e => setTitle(e.target.value)} value={title} />
-          </Form.Group>
-          <Button variant="primary" type="submit" >
-            {buttonTitle}
-          </Button>
-        </Form>
-        <Table  striped border hover>
-            <thead>
-              <tr>
-                  <th>To Do</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                  <th>Complete</th>
-              </tr>
-            </thead>
-            <tbody>
-                {data.todos.map((todo) => (
-                  <tr key={todo.id} className={`${todo.completed ? 'text-decoration-line-through' : ''}`}>
-                      <td>{todo.title}</td>
-                      <td>
-                        <Button variant="warning" onClick={() => {
-                          setTitle(todo.title);
-                          setEditMode(true);
-                          setEditTodo(todo);
-                        }}>
-                          <FaEdit />
-                        </Button>
-                      </td>
-                      <td>
-                        <Button variant="danger" onClick={() => removeTodo(todo.id)}>
-                          <FaTrash />
-                        </Button>
-                      </td>
-                      <td>
-                        <Button variant="success" onClick={() => markTodo(todo.id)}>
-                          <MdDone />
-                        </Button>
-                      </td>
-                  </tr>
-                ))}
-            </tbody>
-        </Table>
-      </>
-    );
+  return (
+    <>
+      <Form onSubmit={handleSubmit} >
+        <Form.Group className="mb-3">
+          <Form.Control type="text" placeholder="Enter To Do" onChange={e => setTitle(e.target.value)} value={title} />
+        </Form.Group>
+        <Button variant="primary" type="submit" >
+          {buttonTitle}
+        </Button>
+      </Form>
+      <Table  striped border hover>
+          <thead>
+            <tr>
+                <th>To Do</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Complete</th>
+            </tr>
+          </thead>
+          <tbody>
+              {data.todos.map((todo) => (
+                <tr key={todo.id} className={`${todo.completed ? 'text-decoration-line-through' : ''}`}>
+                    <td>{todo.title}</td>
+                    <td>
+                      <Button variant="warning" onClick={() => {
+                        setTitle(todo.title);
+                        setEditMode(true);
+                        setEditTodo(todo);
+                      }}>
+                        <FaEdit />
+                      </Button>
+                    </td>
+                    <td>
+                      <Button variant="danger" onClick={() => removeTodo(todo.id)}>
+                        <FaTrash />
+                      </Button>
+                    </td>
+                    <td>
+                      <Button variant="success" onClick={() => markTodo(todo.id)}>
+                        <MdDone />
+                      </Button>
+                    </td>
+                </tr>
+              ))}
+          </tbody>
+      </Table>
+    </>
+  );
 }
